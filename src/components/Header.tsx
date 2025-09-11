@@ -1,4 +1,3 @@
-this is not mobile responsive 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, Heart, ShoppingCart, User, Wine, LogOut, Settings } from 'lucide-react';
@@ -56,15 +55,15 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link to="/" className="flex items-center space-x-2 group flex-shrink-0 min-w-0">
             <div className="bg-gradient-to-br from-wine-600 to-wine-800 p-2 rounded-lg group-hover:from-wine-700 group-hover:to-wine-900 transition-all duration-300">
               <Wine className="h-6 w-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-xl font-serif font-bold text-wine-900 group-hover:text-wine-700 transition-colors">
+            <div className="truncate">
+              <h1 className="text-lg sm:text-xl font-serif font-bold text-wine-900 group-hover:text-wine-700 transition-colors truncate">
                 Vintner's Choice
               </h1>
-              <p className="text-xs text-wine-600 -mt-1">Premium Wine Collection</p>
+              <p className="hidden sm:block text-xs text-wine-600 -mt-1 truncate">Premium Wine Collection</p>
             </div>
           </Link>
 
@@ -86,20 +85,18 @@ const Header = () => {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
             {/* Search */}
-            <Button variant="ghost" size="sm" className="hidden sm:flex text-wine-700 hover:text-wine-900">
-              <Search className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="hidden sm:flex text-wine-700 hover:text-wine-900">
+              <Search className="h-5 w-5" />
             </Button>
 
             {/* Favorites */}
             <Link to="/favorites">
-              <Button variant="ghost" size="sm" className="relative text-wine-700 hover:text-wine-900">
-                <Heart className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="relative text-wine-700 hover:text-wine-900">
+                <Heart className="h-5 w-5" />
                 {favoritesCount > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs bg-red-500 hover:bg-red-500 flex items-center justify-center"
-                  >
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-red-500 hover:bg-red-500 flex items-center justify-center">
                     {favoritesCount}
                   </Badge>
                 )}
@@ -108,12 +105,10 @@ const Header = () => {
 
             {/* Cart */}
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="relative text-wine-700 hover:text-wine-900">
-                <ShoppingCart className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="relative text-wine-700 hover:text-wine-900">
+                <ShoppingCart className="h-5 w-5" />
                 {cartItemCount > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs bg-wine-600 hover:bg-wine-600 flex items-center justify-center"
-                  >
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-wine-600 hover:bg-wine-600 flex items-center justify-center">
                     {cartItemCount}
                   </Badge>
                 )}
@@ -124,8 +119,8 @@ const Header = () => {
             {user || isSignedIn ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-wine-700 hover:text-wine-900">
-                    <User className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="text-wine-700 hover:text-wine-900">
+                    <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -154,9 +149,9 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild variant="ghost" size="sm" className="text-wine-700 hover:text-wine-900">
+              <Button asChild variant="ghost" size="sm" className="text-wine-700 hover:text-wine-900 hidden sm:flex">
                 <Link to="/auth">
-                  <User className="h-4 w-4 mr-2" />
+                  <User className="h-4 w-4 mr-1" />
                   Sign In
                 </Link>
               </Button>
@@ -165,7 +160,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               className="md:hidden text-wine-700"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -192,18 +187,18 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
-              <div className="flex items-center space-x-4 px-2 pt-2 border-t border-wine-100">
-                <Button variant="ghost" size="sm" className="text-wine-700">
+              <div className="flex flex-col space-y-2 px-2 pt-2 border-t border-wine-100">
+                <Button variant="ghost" size="sm" className="flex items-center text-wine-700">
                   <Search className="h-4 w-4 mr-2" />
                   Search
                 </Button>
                 {user ? (
-                  <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-red-600">
+                  <Button variant="ghost" size="sm" onClick={handleSignOut} className="flex items-center text-red-600">
                     <LogOut className="h-4 w-4 mr-2" />
                     Sign Out
                   </Button>
                 ) : (
-                  <Button asChild variant="ghost" size="sm" className="text-wine-700">
+                  <Button asChild variant="ghost" size="sm" className="flex items-center text-wine-700">
                     <Link to="/auth">
                       <User className="h-4 w-4 mr-2" />
                       Sign In
