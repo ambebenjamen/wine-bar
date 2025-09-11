@@ -1,10 +1,25 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Heart, ShoppingCart, User, Wine, LogOut, Settings } from 'lucide-react';
+import {
+  Menu,
+  X,
+  Search,
+  Heart,
+  ShoppingCart,
+  User,
+  Wine,
+  LogOut,
+  Settings,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useCart } from '@/hooks/useCart';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useAuth } from '@/contexts/AuthContext';
@@ -30,7 +45,7 @@ const Header = () => {
     { name: 'Sparkling', href: '/wines?type=sparkling' },
   ];
 
-  const isActive = (href: string) => {
+  const isActive = (href) => {
     if (href === '/') return location.pathname === '/';
     return location.pathname.startsWith(href);
   };
@@ -39,14 +54,14 @@ const Header = () => {
     try {
       await signOut();
       toast({
-        title: "Signed out",
-        description: "You have been signed out successfully.",
+        title: 'Signed out',
+        description: 'You have been signed out successfully.',
       });
-    } catch (error: any) {
+    } catch (error) {
       toast({
-        title: "Error",
+        title: 'Error',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -56,15 +71,20 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="bg-gradient-to-br from-wine-600 to-wine-800 p-2 rounded-lg group-hover:from-wine-700 group-hover:to-wine-900 transition-all duration-300">
+          <Link
+            to="/"
+            className="flex items-center space-x-2 group flex-shrink-0"
+          >
+            <div className="bg-gradient-to-br from-wine-600 to-wine-800 p-2 rounded-lg">
               <Wine className="h-6 w-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-xl font-serif font-bold text-wine-900 group-hover:text-wine-700 transition-colors">
-                Vintner's Choice
+            <div className="truncate">
+              <h1 className="text-lg sm:text-xl font-serif font-bold text-wine-900 truncate">
+                Vintner&apos;s Choice
               </h1>
-              <p className="text-xs text-wine-600 -mt-1">Premium Wine Collection</p>
+              <p className="hidden sm:block text-xs text-wine-600 -mt-1">
+                Premium Collection
+              </p>
             </div>
           </Link>
 
@@ -75,8 +95,8 @@ const Header = () => {
                 key={item.name}
                 to={item.href}
                 className={`text-sm font-medium transition-colors duration-200 hover:text-wine-600 relative ${
-                  isActive(item.href) 
-                    ? 'text-wine-800 after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-0.5 after:bg-wine-600' 
+                  isActive(item.href)
+                    ? 'text-wine-800 after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-0.5 after:bg-wine-600'
                     : 'text-wine-700'
                 }`}
               >
@@ -86,20 +106,26 @@ const Header = () => {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Search */}
-            <Button variant="ghost" size="sm" className="hidden sm:flex text-wine-700 hover:text-wine-900">
-              <Search className="h-4 w-4" />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden sm:flex text-wine-700 hover:text-wine-900"
+            >
+              <Search className="h-5 w-5" />
             </Button>
 
             {/* Favorites */}
             <Link to="/favorites">
-              <Button variant="ghost" size="sm" className="relative text-wine-700 hover:text-wine-900">
-                <Heart className="h-4 w-4" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative text-wine-700 hover:text-wine-900"
+              >
+                <Heart className="h-5 w-5" />
                 {favoritesCount > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs bg-red-500 hover:bg-red-500 flex items-center justify-center"
-                  >
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-red-500">
                     {favoritesCount}
                   </Badge>
                 )}
@@ -108,24 +134,30 @@ const Header = () => {
 
             {/* Cart */}
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="relative text-wine-700 hover:text-wine-900">
-                <ShoppingCart className="h-4 w-4" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative text-wine-700 hover:text-wine-900"
+              >
+                <ShoppingCart className="h-5 w-5" />
                 {cartItemCount > 0 && (
-                  <Badge 
-                    className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs bg-wine-600 hover:bg-wine-600 flex items-center justify-center"
-                  >
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-[10px] bg-wine-600">
                     {cartItemCount}
                   </Badge>
                 )}
               </Button>
             </Link>
 
-            {/* User Account - Clerk or Supabase */}
+            {/* User Account */}
             {user || isSignedIn ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-wine-700 hover:text-wine-900">
-                    <User className="h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-wine-700 hover:text-wine-900"
+                  >
+                    <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -147,17 +179,25 @@ const Header = () => {
                       <DropdownMenuSeparator />
                     </>
                   )}
-                  <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="text-red-600"
+                  >
                     <LogOut className="h-4 w-4 mr-2" />
                     Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild variant="ghost" size="sm" className="text-wine-700 hover:text-wine-900">
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="text-wine-700 hover:text-wine-900"
+              >
                 <Link to="/auth">
-                  <User className="h-4 w-4 mr-2" />
-                  Sign In
+                  <User className="h-4 w-4 mr-1" />
+                  <span className="hidden sm:inline">Sign In</span>
                 </Link>
               </Button>
             )}
@@ -165,7 +205,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               className="md:hidden text-wine-700"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -173,48 +213,68 @@ const Header = () => {
             </Button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-wine-100 animate-fade-in-up">
-            <nav className="flex flex-col space-y-3">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`text-sm font-medium px-2 py-1 rounded transition-colors ${
-                    isActive(item.href)
-                      ? 'text-wine-800 bg-wine-50'
-                      : 'text-wine-700 hover:text-wine-900 hover:bg-wine-50'
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="flex items-center space-x-4 px-2 pt-2 border-t border-wine-100">
-                <Button variant="ghost" size="sm" className="text-wine-700">
-                  <Search className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
-                {user ? (
-                  <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-red-600">
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </Button>
-                ) : (
-                  <Button asChild variant="ghost" size="sm" className="text-wine-700">
-                    <Link to="/auth">
-                      <User className="h-4 w-4 mr-2" />
-                      Sign In
-                    </Link>
-                  </Button>
-                )}
-              </div>
-            </nav>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Navigation Overlay */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-white z-40 p-6 animate-fade-in-up overflow-y-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-lg font-bold text-wine-800">Menu</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </Button>
+          </div>
+          <nav className="flex flex-col space-y-4">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`text-base font-medium px-2 py-1 rounded ${
+                  isActive(item.href)
+                    ? 'text-wine-800 bg-wine-50'
+                    : 'text-wine-700 hover:text-wine-900 hover:bg-wine-50'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-6 border-t pt-4 space-y-3">
+            <Button variant="ghost" size="sm" className="w-full justify-start">
+              <Search className="h-4 w-4 mr-2" />
+              Search
+            </Button>
+            {user ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="w-full justify-start text-red-600"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start"
+              >
+                <Link to="/auth">
+                  <User className="h-4 w-4 mr-2" />
+                  Sign In
+                </Link>
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
