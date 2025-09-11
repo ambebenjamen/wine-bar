@@ -215,65 +215,78 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Overlay */}
+      {/* Mobile Navigation Sidebar */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-white z-40 p-6 animate-fade-in-up overflow-y-auto">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-bold text-wine-800">Menu</h2>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <X className="h-6 w-6" />
-            </Button>
-          </div>
-          <nav className="flex flex-col space-y-4">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`text-base font-medium px-2 py-1 rounded ${
-                  isActive(item.href)
-                    ? 'text-wine-800 bg-wine-50'
-                    : 'text-wine-700 hover:text-wine-900 hover:bg-wine-50'
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-          <div className="mt-6 border-t pt-4 space-y-3">
-            <Button variant="ghost" size="sm" className="w-full justify-start">
-              <Search className="h-4 w-4 mr-2" />
-              Search
-            </Button>
-            {user ? (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 z-40"
+            onClick={() => setIsMenuOpen(false)}
+          />
+
+          {/* Sidebar */}
+          <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out translate-x-0">
+            <div className="flex items-center justify-between px-4 py-4 border-b">
+              <h2 className="text-lg font-bold text-wine-800">Menu</h2>
               <Button
                 variant="ghost"
-                size="sm"
-                onClick={handleSignOut}
-                className="w-full justify-start text-red-600"
+                size="icon"
+                onClick={() => setIsMenuOpen(false)}
               >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
+                <X className="h-6 w-6" />
               </Button>
-            ) : (
+            </div>
+            <nav className="flex flex-col space-y-4 px-4 py-6">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`text-base font-medium rounded ${
+                    isActive(item.href)
+                      ? 'text-wine-800 bg-wine-50 px-2 py-1'
+                      : 'text-wine-700 hover:text-wine-900 hover:bg-wine-50 px-2 py-1'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+            <div className="mt-auto border-t px-4 py-4 space-y-3">
               <Button
-                asChild
                 variant="ghost"
                 size="sm"
                 className="w-full justify-start"
               >
-                <Link to="/auth">
-                  <User className="h-4 w-4 mr-2" />
-                  Sign In
-                </Link>
+                <Search className="h-4 w-4 mr-2" />
+                Search
               </Button>
-            )}
+              {user ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="w-full justify-start text-red-600"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              ) : (
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start"
+                >
+                  <Link to="/auth">
+                    <User className="h-4 w-4 mr-2" />
+                    Sign In
+                  </Link>
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );
